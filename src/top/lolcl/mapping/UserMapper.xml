@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.lolcl.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="top.lolcl.entity.User">
+    <id column="UNAME" jdbcType="VARCHAR" property="uname" />
+    <result column="PWD" jdbcType="VARCHAR" property="pwd" />
+    <result column="ROLE" jdbcType="DECIMAL" property="role" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    UNAME, PWD, ROLE
+  </sql> 
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TUSER 
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from TUSER
+    where UNAME = #{uname,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from TUSER
+    where UNAME = #{uname,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="top.lolcl.entity.User">
+    insert into TUSER (UNAME, PWD, ROLE)
+    values (#{uname,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, #{role,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="top.lolcl.entity.User">
+    insert into TUSER
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uname != null">
+        UNAME,
+      </if>
+      <if test="pwd != null">
+        PWD,
+      </if>
+      <if test="role != null">
+        ROLE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uname != null">
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        #{role,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.lolcl.entity.User">
+    update TUSER
+    <set>
+      <if test="pwd != null">
+        PWD = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null">
+        ROLE = #{role,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where UNAME = #{uname,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.lolcl.entity.User">
+    update TUSER
+    set PWD = #{pwd,jdbcType=VARCHAR},
+      ROLE = #{role,jdbcType=DECIMAL}
+    where UNAME = #{uname,jdbcType=VARCHAR}
+  </update>
+  
+</mapper>

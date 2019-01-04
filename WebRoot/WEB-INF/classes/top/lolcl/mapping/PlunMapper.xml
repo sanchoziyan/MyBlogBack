@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.lolcl.dao.PlunMapper" >
+  <resultMap id="BaseResultMap" type="top.lolcl.entity.Plun" >
+    <id column="PID" property="pid" jdbcType="DECIMAL" />
+    <result column="UNAME" property="uname" jdbcType="VARCHAR" />
+    <result column="NID" property="nid" jdbcType="VARCHAR" />
+    <result column="PINFO" property="pinfo" jdbcType="VARCHAR" />
+    <result column="PTIME" property="ptime" jdbcType="TIMESTAMP" />
+    <result column="ZAN" property="zan" jdbcType="DECIMAL" />
+    <result column="CAI" property="cai" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    PID, UNAME, NID, PINFO, PTIME, ZAN, CAI
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from TPLUN
+    where PID = #{pid,jdbcType=DECIMAL}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from TPLUN
+    where PID = #{pid,jdbcType=DECIMAL}
+  </delete>
+  <insert id="insert" parameterType="top.lolcl.entity.Plun" >
+    insert into TPLUN (PID, UNAME, NID, 
+      PINFO, PTIME, ZAN, 
+      CAI)
+    values (#{pid,jdbcType=DECIMAL}, #{uname,jdbcType=VARCHAR}, #{nid,jdbcType=VARCHAR}, 
+      #{pinfo,jdbcType=VARCHAR}, #{ptime,jdbcType=TIMESTAMP}, #{zan,jdbcType=DECIMAL}, 
+      #{cai,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="top.lolcl.entity.Plun" >
+    insert into TPLUN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pid != null" >
+        PID,
+      </if>
+      <if test="uname != null" >
+        UNAME,
+      </if>
+      <if test="nid != null" >
+        NID,
+      </if>
+      <if test="pinfo != null" >
+        PINFO,
+      </if>
+      <if test="ptime != null" >
+        PTIME,
+      </if>
+      <if test="zan != null" >
+        ZAN,
+      </if>
+      <if test="cai != null" >
+        CAI,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pid != null" >
+        #{pid,jdbcType=DECIMAL},
+      </if>
+      <if test="uname != null" >
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="nid != null" >
+        #{nid,jdbcType=VARCHAR},
+      </if>
+      <if test="pinfo != null" >
+        #{pinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="ptime != null" >
+        #{ptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="zan != null" >
+        #{zan,jdbcType=DECIMAL},
+      </if>
+      <if test="cai != null" >
+        #{cai,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.lolcl.entity.Plun" >
+    update TPLUN
+    <set >
+      <if test="uname != null" >
+        UNAME = #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="nid != null" >
+        NID = #{nid,jdbcType=VARCHAR},
+      </if>
+      <if test="pinfo != null" >
+        PINFO = #{pinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="ptime != null" >
+        PTIME = #{ptime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="zan != null" >
+        ZAN = #{zan,jdbcType=DECIMAL},
+      </if>
+      <if test="cai != null" >
+        CAI = #{cai,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where PID = #{pid,jdbcType=DECIMAL}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.lolcl.entity.Plun" >
+    update TPLUN
+    set UNAME = #{uname,jdbcType=VARCHAR},
+      NID = #{nid,jdbcType=VARCHAR},
+      PINFO = #{pinfo,jdbcType=VARCHAR},
+      PTIME = #{ptime,jdbcType=TIMESTAMP},
+      ZAN = #{zan,jdbcType=DECIMAL},
+      CAI = #{cai,jdbcType=DECIMAL}
+    where PID = #{pid,jdbcType=DECIMAL}
+  </update>
+</mapper>

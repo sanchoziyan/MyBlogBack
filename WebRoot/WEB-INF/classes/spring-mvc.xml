@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"  
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:mvc="http://www.springframework.org/schema/mvc" 
+    xmlns:aop="http://www.springframework.org/schema/aop" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans    
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd    
+                        http://www.springframework.org/schema/context    
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd    
+                        http://www.springframework.org/schema/mvc    
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+                        http://www.springframework.org/schema/aop 
+        				http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">  
+    <!-- 自动扫描包路径下文件注解 -->
+    <context:component-scan base-package="top.lolcl"></context:component-scan>
+    <!-- 开启mvc驱动注解 -->
+    <mvc:annotation-driven conversion-service="conversionService"/>
+    <!-- 注册类型转换器 -->
+    <!-- <bean id="myDateConverter" class="top.lolcl.myblog.controller.converter.MyDateConverter"></bean> -->
+    <!-- 注册转换服务对象 -->
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+    	<property name="converters" >
+    		<set>
+    			<ref bean="myDateConverter" /><!-- 使用注解方式注入自定义类转换器 首字母小写 -->
+    		</set>
+    	</property>
+    </bean>
+    <!-- 静态资源访问处理 -->   
+    <mvc:resources  location="WEB-INF/static/"  mapping="/static/**"/>
+    <!-- 激活自动代理功能  cglib代理-->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <!-- 视图解析器 -->
+    <bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<!--  property name="suffix" value=".jsp"></property-->
+	</bean>   
+	<!-- 配置文件上传 -->  
+    <bean id="multipartResolver"    
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">    
+        <!-- 默认编码 -->  
+        <property name="defaultEncoding" value="utf-8" />    
+        <!-- 文件大小最大值 -->  
+        <property name="maxUploadSize" value="10485760000" />    
+        <!-- 内存中的最大值 -->  
+        <property name="maxInMemorySize" value="40960" />    
+        <!-- 启用是为了推迟文件解析，以便捕获文件大小异常 -->
+        <property name="resolveLazily" value="true"/>
+    </bean>                
+</beans>

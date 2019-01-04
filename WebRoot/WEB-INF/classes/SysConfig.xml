@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<!-- 图片服务器 配置信息 -->
+	<imgPath>F:\img</imgPath>
+	<imgServerUrl>http://127.0.0.1:8080/img</imgServerUrl>
+	<!-- 新闻主页的右边的4个热点新闻 -->
+	<hotNewsPic>
+		<news nid="" picUrl="" title="" />
+		<news nid="" picUrl="" title="" />
+		<news nid="" picUrl="" title="" />
+		<news nid="" picUrl="" title="" />
+	</hotNewsPic>
+	<!-- 新闻网站前台的站点部署名，用于在缓存中生成前台调用的uri -->
+	<newsBasePath>http://localhost:8080/News</newsBasePath>
+</root>

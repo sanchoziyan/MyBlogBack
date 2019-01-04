@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.lolcl.dao.RightMapper" >
+  <resultMap id="BaseResultMap" type="top.lolcl.entity.Right" >
+    <id column="RID" property="rid" jdbcType="VARCHAR" />
+    <result column="RNAME" property="rname" jdbcType="VARCHAR" />
+    <result column="RURL" property="rurl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    RID, RNAME, RURL,PID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TRIGHT
+    where RID = #{rid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TRIGHT
+    where RID = #{rid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="top.lolcl.entity.Right" >
+    insert into TRIGHT (RID, RNAME, RURL,PID
+      )
+    values (#{rid,jdbcType=VARCHAR}, #{rname,jdbcType=VARCHAR}, #{rurl,jdbcType=VARCHAR}
+    , #{pid,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="top.lolcl.entity.Right" >
+    insert into TRIGHT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rid != null" >
+        RID,
+      </if>
+      <if test="rname != null" >
+        RNAME,
+      </if>
+      <if test="rurl != null" >
+        RURL,
+      </if>
+      <if test="pid != null" >
+        PID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rid != null" >
+        #{rid,jdbcType=VARCHAR},
+      </if>
+      <if test="rname != null" >
+        #{rname,jdbcType=VARCHAR},
+      </if>
+      <if test="rurl != null" >
+        #{rurl,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.lolcl.entity.Right" >
+    update TRIGHT
+    <set >
+      <if test="rname != null" >
+        RNAME = #{rname,jdbcType=VARCHAR},
+      </if>
+      <if test="rurl != null" >
+        RURL = #{rurl,jdbcType=VARCHAR},
+      </if>
+      <if test="pid != null" >
+        RURL = #{pid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where RID = #{rid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.lolcl.entity.Right" >
+    update TRIGHT
+    set RNAME = #{rname,jdbcType=VARCHAR},
+      RURL = #{rurl,jdbcType=VARCHAR}
+      PID = #{pid,jdbcType=VARCHAR}
+    where RID = #{rid,jdbcType=VARCHAR}
+  </update>
+</mapper>

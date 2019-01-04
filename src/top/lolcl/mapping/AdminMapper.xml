@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.lolcl.dao.AdminMapper" >
+  <resultMap id="BaseResultMap" type="top.lolcl.entity.Admin" >
+    <id column="UNAME" property="uname" jdbcType="VARCHAR" />
+    <result column="PWD" property="pwd" jdbcType="VARCHAR" />
+    <result column="ROLE" property="role" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    UNAME, PWD, ROLE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TADMIN
+    where UNAME = #{uname,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TADMIN
+    where UNAME = #{uname,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="top.lolcl.entity.Admin" >
+    insert into TADMIN (UNAME, PWD, ROLE
+      )
+    values (#{uname,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, #{role,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="top.lolcl.entity.Admin" >
+    insert into TADMIN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="uname != null" >
+        UNAME,
+      </if>
+      <if test="pwd != null" >
+        PWD,
+      </if>
+      <if test="role != null" >
+        ROLE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="uname != null" >
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null" >
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        #{role,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.lolcl.entity.Admin" >
+    update TADMIN
+    <set >
+      <if test="pwd != null" >
+        PWD = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="role != null" >
+        ROLE = #{role,jdbcType=CHAR},
+      </if>
+    </set>
+    where UNAME = #{uname,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.lolcl.entity.Admin" >
+    update TADMIN
+    set PWD = #{pwd,jdbcType=VARCHAR},
+      ROLE = #{role,jdbcType=CHAR}
+    where UNAME = #{uname,jdbcType=VARCHAR}
+  </update>
+</mapper>

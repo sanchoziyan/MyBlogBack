@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.lolcl.dao.RoleMapper" >
+  <resultMap id="BaseResultMap" type="top.lolcl.entity.Role" >
+    <id column="ROID" property="roid" jdbcType="CHAR" />
+    <result column="RONAME" property="roname" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ROID, RONAME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from TROLE
+    where ROID = #{roid,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TROLE
+    where ROID = #{roid,jdbcType=CHAR}
+  </delete>
+  <insert id="insert" parameterType="top.lolcl.entity.Role" >
+    insert into TROLE (ROID, RONAME)
+    values (#{roid,jdbcType=CHAR}, #{roname,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="top.lolcl.entity.Role" >
+    insert into TROLE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roid != null" >
+        ROID,
+      </if>
+      <if test="roname != null" >
+        RONAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roid != null" >
+        #{roid,jdbcType=CHAR},
+      </if>
+      <if test="roname != null" >
+        #{roname,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.lolcl.entity.Role" >
+    update TROLE
+    <set >
+      <if test="roname != null" >
+        RONAME = #{roname,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ROID = #{roid,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.lolcl.entity.Role" >
+    update TROLE
+    set RONAME = #{roname,jdbcType=VARCHAR}
+    where ROID = #{roid,jdbcType=CHAR}
+  </update>
+</mapper>

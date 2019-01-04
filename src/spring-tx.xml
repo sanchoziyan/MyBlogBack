@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+ 	
+ 	
+    <!-- 事务管理器，依赖于数据源 -->
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    <!-- 声明式事务 ， 使用注解方式进行事务控制 -->
+   <tx:annotation-driven transaction-manager="txManager"/> 
+    
+    <!-- 声明式事务，使用配置文件进行配置事务控制  编写通知：对事务进行增强（通知），需要编写对切入点和具体执行事务细节 -->
+    <!-- <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes> -->
+            <!--
+               	 为切入点方法添加事务详情
+                name：方法名，*表示任意方法名称
+                propagation：设置传播行为
+                isolation：设置隔离级别
+                read-only：是否只读
+            -->
+         <!--    <tx:method name="add*" propagation="REQUIRED" isolation="DEFAULT" read-only="false" rollback-for="Exception" />
+            <tx:method name="delete*" propagation="REQUIRED" isolation="DEFAULT" read-only="false" rollback-for="Exception" />
+            <tx:method name="update*" propagation="REQUIRED" isolation="DEFAULT" read-only="false" rollback-for="Exception" />
+        </tx:attributes>
+    </tx:advice> -->
+    
+    <!-- 设置AOP，让Spring自动对目标生成代理，需要使用AspectJ表达式 -->
+   <!--  <aop:config proxy-target-class="true"> -->
+        <!-- 切面：整合切入点和通知 -->
+      <!--   <aop:advisor advice-ref="txAdvice" pointcut="within(top.lolcl.myblog.controller..*)" />
+    </aop:config> -->
+    
+    
+    <!-- 第一种方式基于xml配置实现aop切面编程 -->
+    <!-- 强制使用cglib代理，如果不设置，将默认使用jdk代理，但是jdk的代理是基于接口的 -->
+	<!-- <aop:config proxy-target-class="true" /> -->
+	<!-- 定义切面 -->
+	<!-- <aop:aspect id="logAspect" ref="logInterceptor"> -->
+	<!-- 定义切入点（配置在top.lolcl.myblog.controller 下所有的类在掉用之前都会被拦截） -->
+	<!-- <aop:pointcut expression="execution(* top.lolcl.myblog.controller.*.*(..))" id="logPointCut"/> -->
+	<!-- 方法执行之前被调用执行的 -->
+	<!-- <aop:before method="before" pointcut-ref="logPointCut"/>
+	<aop:after method="after" pointcut-ref = "logPointCut"/>
+	</aop:aspect>
+	</aop:config> -->
+	
+</beans>

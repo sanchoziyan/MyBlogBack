@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.lolcl.dao.NewsMapper" >
+  <resultMap id="BaseResultMap" type="top.lolcl.entity.News" >
+    <id column="NID" property="nid" jdbcType="VARCHAR" />
+    <result column="CID" property="cid" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="PUBTIME" property="pubtime" jdbcType="TIMESTAMP" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="top.lolcl.entity.News" extends="BaseResultMap" >
+    <result column="INFO" property="info" jdbcType="CLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    NID, CID, TITLE, PUBTIME, STATE
+  </sql>
+  <sql id="Blob_Column_List" >
+    INFO
+  </sql>
+  <select id="selectAll" resultMap="ResultMapWithBLOBs"  >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from TNEWS order by PUBTIME
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from TNEWS
+    where NID = #{nid,jdbcType=VARCHAR}
+  </select>
+  <select id="getCounts" resultType="int">
+	    select count(*) from TNEWS
+	    <if test="title != null and title !='' ">
+			   where TITLE like concat (concat('%',#{title}),'%')
+		 </if>
+	</select>
+  <select id="query" resultMap="ResultMapWithBLOBs">
+	  select * from (select rownum rn,tb.* from ( 
+		select ca.cname,ca.cid, n.title, n.pubtime,n.state, n.nid
+             from tnews n, tcategory ca  where ca.cid = n.cid
+              <if test="title != null and title !='' ">
+			      and n.TITLE like concat (concat('%',#{title}),'%')
+		     </if>
+		     order by n.pubtime desc
+		    <![CDATA[ )tb) where rn >= #{iStart} and rn<#{iEnd} ]]>  	
+	</select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from TNEWS
+    where NID = #{nid,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="top.lolcl.entity.News" >
+    insert into TNEWS (NID, CID, TITLE, 
+      PUBTIME, STATE, INFO
+      )
+    values (#{nid,jdbcType=VARCHAR}, #{cid,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{pubtime,jdbcType=TIMESTAMP}, #{state,jdbcType=DECIMAL}, #{info,jdbcType=CLOB}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="top.lolcl.entity.News" >
+    insert into TNEWS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="nid != null" >
+        NID,
+      </if>
+      <if test="cid != null" >
+        CID,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="pubtime != null" >
+        PUBTIME,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="info != null" >
+        INFO,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="nid != null" >
+        #{nid,jdbcType=VARCHAR},
+      </if>
+      <if test="cid != null" >
+        #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pubtime != null" >
+        #{pubtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=DECIMAL},
+      </if>
+      <if test="info != null" >
+        #{info,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="top.lolcl.entity.News" >
+    update TNEWS
+    <set >
+      <if test="cid != null" >
+        CID = #{cid,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="pubtime != null" >
+        PUBTIME = #{pubtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=DECIMAL},
+      </if>
+      <if test="info != null" >
+        INFO = #{info,jdbcType=CLOB},
+      </if>
+    </set>
+    where NID = #{nid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="top.lolcl.entity.News" >
+    update TNEWS
+    set CID = #{cid,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      PUBTIME = #{pubtime,jdbcType=TIMESTAMP},
+      STATE = #{state,jdbcType=DECIMAL},
+      INFO = #{info,jdbcType=CLOB}
+    where NID = #{nid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.lolcl.entity.News" >
+    update TNEWS
+    set CID = #{cid,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      PUBTIME = #{pubtime,jdbcType=TIMESTAMP},
+      STATE = #{state,jdbcType=DECIMAL}
+    where NID = #{nid,jdbcType=VARCHAR}
+  </update>
+</mapper>
